@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import filedialog
 from PIL import ImageTk
 import sqlite3
+import pandas as pd
 
 # Background Colour
 bg_colour = "#F0F0F0"
@@ -31,12 +32,22 @@ def our_command():
 
 
 def fetch_db():
-    connection = sqlite3.connect("OffenceDB.db")
+    # Database Connection
+    connection = sqlite3.connect(filename)
     cursor = connection.cursor()
-    cursor.execute("SELECT * FROM sqlite_schema WHERE type='table';")
-    all_tables = cursor.fetchall()
-    print(all_tables[0])
+    cursor.execute("SELECT * "
+                   "FROM Offences  "
+                   "LIMIT 0,30;")
+    rows = cursor.fetchall()
+
+    for row in rows:
+        print(row)
+
     connection.close()
+
+
+def load_db():
+    print("Placeholder")
 
 
 def load_frame2():
@@ -126,7 +137,7 @@ view_menu.add_command(label="Zoom Out", command=our_command)
 
 # Help Menu
 help_menu = tk.Menu(my_menu)
-my_menu.add_cascade(label="View", menu=help_menu)
+my_menu.add_cascade(label="Help", menu=help_menu)
 help_menu.add_command(label="Help?", command=our_command)
 help_menu.add_command(label="Contact Support", command=our_command)
 help_menu.add_separator()
